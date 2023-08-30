@@ -24,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
     montantTVA: DataTypes.FLOAT,
     tauxRemise: DataTypes.FLOAT,
     montantTotal: DataTypes.FLOAT,
+    remiseTotalPourcent: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0,
+    },
     articleData: {
       type: DataTypes.JSONB,
       allowNull: false,

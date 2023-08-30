@@ -22,8 +22,8 @@ router.get('/profile', authMiddleware, (req, res) => {
 });
 
 // Mettre à jour le mot de passe de l'utilisateur (requiert une authentification)
-// Mettre à jour le mot de passe de l'utilisateur (requiert une authentification)
 router.put('/profile/:id/password', authMiddleware, UserController.updatePassword);
 // Ajoutez ici d'autres routes pour d'autres fonctionnalités (ventes, achats, etc.)
+
 
 module.exports = router;

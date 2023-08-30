@@ -5,6 +5,10 @@ const secretKey = 'mySecretKey';
 
 // Middleware pour vérifier l'authentification de l'utilisateur
 async function authenticate(req, res, next) {
+  if (!req.headers.authorization) {
+    return res.status(401).json({ error: 'En-tête d\'autorisation manquant' });
+  }
+  
   const token = req.headers.authorization.split(' ')[1];
 
   if (!token) {
@@ -12,12 +16,11 @@ async function authenticate(req, res, next) {
   }
 
   jwt.verify(token, secretKey, async (err, decodedToken) => {
-    console.log(err)
+    console.log(err);
     if (err) {
       return res.status(401).json({ error: 'Token d\'authentification invalide' });
     }
     
-
     try {
       const userId = decodedToken.id;
       const user = await Utilisateur.findByPk(userId);

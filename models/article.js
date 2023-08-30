@@ -65,6 +65,11 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+    supprime: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  
   }, {
     sequelize,
     modelName: 'Article',

@@ -2,13 +2,18 @@ const express = require('express');
 const router = express.Router();
 const VenteController = require('../controllers/venteControllers');
 
-// Route pour créer une nouvelle vente
+// Route for creating a new sale
 router.post('/ventes', VenteController.createVente);
 
-// Route pour récupérer toutes les ventes
+// Route for getting all sales
 router.get('/ventes', VenteController.getAllVentes);
 
-// Autres routes pour mettre à jour, supprimer une vente, etc.
+// Route for updating a sale by ID
+router.put('/ventes/:venteId', VenteController.updateVente);
+
+// Route for getting a specific sale by ID
 router.get('/ventes/:venteId', VenteController.getVenteById);
+
+// Other routes for deleting a sale, etc.
 
 module.exports = router;

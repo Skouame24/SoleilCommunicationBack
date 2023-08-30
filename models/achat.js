@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         through: 'AchatArticle',
         foreignKey: 'achatId',
         otherKey: 'articleId',
-        as: 'achatArticles', // Utilisez un nom différent pour l'association
+        as: 'achatArticles', // Use a different name for the association
       });
     }
   }
@@ -23,7 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     montantTVA: DataTypes.FLOAT,
     tauxRemise: DataTypes.FLOAT,
     montantTotal: DataTypes.FLOAT,
-    // Renommez l'attribut 'articles' en quelque chose de différent, par exemple 'articlesData'
+    remiseTotalPourcent: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    // Rename the 'articles' attribute to something different, e.g., 'articlesData'
     articlesData: {
       type: DataTypes.JSONB,
       allowNull: false,

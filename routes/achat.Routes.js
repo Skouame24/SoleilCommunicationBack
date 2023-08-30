@@ -10,6 +10,9 @@ router.get('/achats', AchatController.getAllAchats);
 
 // Route pour récupérer un achat par son ID
 router.get('/achats/:achatId', AchatController.getAchatById);
+// Route pour mettre à jour un achat par son ID
+router.put('/achats/:achatId', AchatController.updateAchat);
+
 
 // Autres routes pour mettre à jour, supprimer un achat, etc.
 

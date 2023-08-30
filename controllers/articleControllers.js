@@ -1,5 +1,7 @@
 const { Article, Boutique, Categorie, TypeArticle } = require('../models');
 
+
+
 const ArticleController = {
     // Méthode pour créer un nouvel article
     createArticle: async (req, res) => {
@@ -127,6 +129,7 @@ const ArticleController = {
   }
 },
 // Méthode pour supprimer un article par son ID
+// Méthode pour supprimer un article par son ID
 deleteArticleById: async (req, res) => {
   const { id } = req.params;
 
@@ -138,11 +141,12 @@ deleteArticleById: async (req, res) => {
       return res.status(404).json({ error: 'Article non trouvé' });
     }
 
-    // Ajouter l'article supprimé au tableau
-    deletedArticles.push(article);
+    console.log('Article trouvé et marqué comme supprimé :', article);
 
-    // Supprimer l'article
-    await article.destroy();
+    // Mettre à jour le champ supprime à true
+    await article.update({ supprime: true });
+
+    console.log('Article marqué comme supprimé.');
 
     // Envoyer la réponse avec un message de succès
     res.status(200).json({ message: 'Article supprimé avec succès' });
@@ -150,7 +154,53 @@ deleteArticleById: async (req, res) => {
     console.error('Erreur lors de la suppression de l\'article :', error);
     res.status(500).json({ message: 'Une erreur est survenue lors de la suppression de l\'article', error });
   }
+}
+,
+// Méthode pour restaurer un article supprimé
+restoreArticleById: async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Rechercher l'article dans la base de données avec le champ supprime à true
+    const article = await Article.findOne({ where: { id, supprime: true } });
+
+    if (!article) {
+      console.log('Article non trouvé parmi les articles supprimés');
+      return res.status(404).json({ error: 'Article non trouvé parmi les articles supprimés' });
+    }
+
+    console.log('Article trouvé parmi les articles supprimés');
+
+    // Mettre à jour le champ supprime à false pour restaurer l'article
+    await article.update({ supprime: false });
+
+    console.log('Article restauré.');
+
+    // Envoyer la réponse avec le nouvel article restauré
+    res.status(201).json({ message: 'Article restauré avec succès', article });
+  } catch (error) {
+    console.error('Erreur lors de la restauration de l\'article :', error);
+    res.status(500).json({ message: 'Une erreur est survenue lors de la restauration de l\'article', error });
+  }
 },
+ // Méthode pour obtenir les articles supprimés
+// Méthode pour obtenir les articles supprimés
+getDeletedArticles: async (req, res) => {
+  try {
+    // Rechercher les articles dans la base de données avec le champ supprime à true
+    const deletedArticles = await Article.findAll({ where: { supprime: true } });
+
+    // Envoyer la réponse avec la liste des articles supprimés
+    res.status(200).json({ deletedArticles });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des articles supprimés :', error);
+    res.status(500).json({ error: 'Erreur lors de la récupération des articles supprimés' });
+  }
+},
+
+
+
+
 };
 
 module.exports = ArticleController;
